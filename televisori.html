@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tv e Audio</title>
+    <link rel="icon" type="image/png" href="favicon1.png">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <!-- CSS del sito (va DOPO Bootstrap per poterlo sovrascrivere) -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ===================== NAVBAR ===================== -->
+    <nav class="navbar navbar-expand-md sticky-top">
+        <a href="index.html" class="navbar-logo-link" aria-label="Vai alla home">
+            <img src="logo.png" id="logo" alt="Ambroso Elettrodomestici">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item mx-3 nav-home-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item mx-3">
+                    <a class="nav-link" href="index.html#cta-storia">Chi siamo</a>
+                </li>
+                <li class="nav-item mx-3">
+                    <a class="nav-link" href="index.html#prodotti">Prodotti</a>
+                </li>
+                <li class="nav-item mx-3">
+                    <a class="nav-link" href="index.html#servizi">Servizi</a>
+                </li>
+                <li class="nav-item mx-3">
+                    <a class="nav-link" href="#footer">Contatti</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+        
+    <!-- ===================== CONTENUTO ===================== -->
+    <main class="container py-5">
+ 
+        <!-- Intro breve della categoria -->
+        <div class="categoria-intro">
+            <span class="eyebrow">TV e Audio</span>
+            <h1>Dal segnale al salotto</h1>
+            <p>
+                Una buona serata davanti allo schermo comincia da un'antenna che prende bene e finisce
+                con un audio che si sente come al cinema. Vendiamo televisori e impianti audio, e ci
+                occupiamo anche della parte impiantistica che li fa funzionare davvero: antenne e
+                parabole.
+            </p>
+        </div>
+ 
+        <!-- Tipologia 1: immagine a sinistra, testo a destra (automatico) -->
+        <div class="tipologia-row">
+            <div class="tipologia-media">
+                <img src="tvx.JPG" alt="Televisori normali e smart TV">
+            </div>
+            <div class="tipologia-content">
+                <span class="tipologia-eyebrow">Visione</span>
+                <h2>TV normali e smart</h2>
+                <p>
+                    Dai modelli più semplici, pensati solo per guardare i canali, alle smart TV con
+                    accesso diretto alle app di streaming, in diverse dimensioni e tecnologie di
+                    schermo per adattarsi alla stanza e alla distanza di visione.
+                </p>
+            </div>
+        </div>
+ 
+        <!-- Tipologia 2: si inverte da sola (immagine a destra, testo a sinistra) -->
+        <div class="tipologia-row">
+            <div class="tipologia-media">
+                <img src="audio.JPG" alt="Impianti home cinema">
+            </div>
+            <div class="tipologia-content">
+                <span class="tipologia-eyebrow">Esperienza cinema</span>
+                <h2>Impianti home cinema</h2>
+                <p>
+                    Un sistema completo di diffusori posizionati in punti diversi della stanza, per
+                    ricreare a casa la sensazione di essere avvolti dal suono come al cinema.
+                    Progettiamo l'impianto in base alla forma e alla grandezza dell'ambiente.
+                </p>
+            </div>
+        </div>
+ 
+        <!-- Tipologia 3: torna a sinistra da sola -->
+        <div class="tipologia-row">
+            <div class="tipologia-media">
+                <img src="soundbar.JPG" alt="Soundbar e subwoofer">
+            </div>
+            <div class="tipologia-content">
+                <span class="tipologia-eyebrow">Audio compatto</span>
+                <h2>Soundbar e subwoofer</h2>
+                <p>
+                    La soluzione più semplice per migliorare l'audio della TV senza installare un
+                    impianto completo: una barra sonora da posizionare sotto lo schermo, abbinabile
+                    a un subwoofer per un bassi più pieni e avvolgenti.
+                </p>
+            </div>
+        </div>
+ 
+        <!-- Tipologia 4: si inverte automaticamente da sola -->
+        <div class="tipologia-row">
+            <div class="tipologia-media">
+                <img src="sat.JPG" alt="Impianti satellitari e antenne">
+            </div>
+            <div class="tipologia-content">
+                <span class="tipologia-eyebrow">Ricezione</span>
+                <h2>Impianti SAT e antenna</h2>
+                <p>
+                    Installazione e manutenzione di antenne terrestri e parabole satellitari, punto
+                    di partenza per avere un buon segnale su tutte le TV di casa. Ci occupiamo anche
+                    della sistemazione di impianti già esistenti che non funzionano più bene.
+                </p>
+            </div>
+        </div>
+ 
+        <!-- Per aggiungere un'altra tipologia: copia uno dei blocchi
+             .tipologia-row sopra e cambia immagine/testi. L'alternanza
+             sinistra/destra si sistema da sola, non serve toccarla. -->
+ 
+    </main>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer id="footer">
+        <div class="footer-content">
+            <p>© 2026 Copyright. Tutti i diritti riservati.</p>
+            <p class="footer-iva-row">
+                <span>Ambroso S.a.s. di Ambroso Gianluca &amp; C.</span>
+                <span class="separator-light">|</span>
+                <span>P.IVA 02872100249</span>
+            </p>
+            <hr>
+            <p><strong>Contatti</strong></p>
+            <p>Telefono: 0424 861080</p>
+            <p>Email: info@ambrosoelettronica.com</p>
+            <p>Sede: via Amabiglia 2, 36027 Rosà (VI)</p>
+            <hr>
+            <p><strong>Social</strong></p>
+            <p>Instagram: ambroso_elettronica</p>
+            <hr>
+            <p><strong>Documenti e Informativa</strong></p>
+
+            <div class="footer-legal">
+                <a href="privacy.html">Informativa sulla Privacy</a>
+                <span class="separator-light">|</span>
+                <a href="cookie.html">Informativa sui Cookie</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===================== SCRIPT ===================== -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

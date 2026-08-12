@@ -1,0 +1,1317 @@
+/* =========================================================
+   VARIABILI GLOBALI
+   ========================================================= */
+:root {
+    --section-padding: 50px;
+    --title-gap: 28px;
+}
+
+/* Scroll-padding: quando clicchi un link del menu (es. #servizi), il
+   browser porta quella sezione all'inizio esatto della pagina — ma la
+   navbar è sticky e le si sovrapporrebbe sopra, nascondendo l'inizio
+   della sezione e dando l'impressione di essere atterrati "a metà".
+   Qui riserviamo lo spazio della navbar così l'inizio resta visibile
+   subito sotto di essa. Il valore cambia in base all'altezza della
+   navbar nelle diverse fasce di larghezza. */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 150px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+@media (max-width: 1199.98px) {
+    html {
+        scroll-padding-top: 170px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    html {
+        scroll-padding-top: 140px;
+    }
+}
+
+/* =========================================================
+   NAVBAR
+   ========================================================= */
+.navbar {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.navbar-logo-link {
+    display: inline-block;
+    line-height: 0;
+    text-decoration: none;
+}
+
+#logo {
+    height: 240px;
+    width: auto;
+    margin-left: 175px;
+    margin-top: -40px;
+    margin-bottom: -60px;
+}
+
+.navbar-nav {
+    margin-left: 150px;
+    margin-top: 10px;
+}
+
+.navbar a {
+    font-size: 16px;
+}
+
+/* Il click-to-home sul logo serve solo su mobile, dove "Home" è nascosta:
+   da tablet in su il pulsante "Home" è già visibile nel menu, quindi il
+   logo torna a essere solo un'immagine (non cliccabile). */
+@media (min-width: 768px) {
+    .navbar-logo-link {
+        pointer-events: none;
+        cursor: default;
+    }
+}
+
+/* =========================================================
+   HEADER (banner offerte)
+   Popolato da script.js leggendo il Google Sheet:
+   - 0 offerte attive  -> sezione nascosta (display:none via JS)
+   - 1 offerta attiva  -> .offerta-single (statica), sempre tema blu
+   - 2+ offerte attive -> carosello Bootstrap AUTOMATICO con dissolvenza
+     incrociata (carousel-fade) e barrette-indicatore in basso.
+   I "temi" non sono piu' tinte piatte ma gradienti profondi con un
+   alone di luce dietro il prodotto (vedi .offerta-slide::before):
+   blu notte -> bordeaux -> antracite. Il prodotto vive su una card
+   BIANCA con ombra morbida: le foto prodotto (quasi sempre su fondo
+   bianco) risaltano invece di "sporcarsi" sul fondo scuro, e con
+   object-fit:contain non vengono piu' ritagliate.
+   #offerte ha un'altezza minima fissa cosi' non "collassa" a 0
+   nell'istante prima che arrivino i dati dal foglio.
+   ========================================================= */
+#offerte {
+    width: 100%;
+    height: 64vh;
+    min-height: 480px;
+    max-height: 760px;
+    background: #0d1730; /* stesso blu del tema di default, cosi' non si vede il "buco" bianco mentre carica */
+    overflow: hidden;
+}
+
+/* Il carosello e i suoi strati interni devono riempire l'altezza
+   fissa di #offerte, altrimenti Bootstrap li lascia alti quanto il
+   loro contenuto */
+#offerte .carousel,
+#offerte .carousel-inner,
+#offerte .carousel-item {
+    height: 100%;
+}
+
+#offerte .offerta-single,
+#offerte .offerta-slide {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* NIENTE centraggio verticale dell'intera colonna: la scritta
+       "Offerte" e' ancorata in alto a distanza FISSA (il padding-top),
+       identica su ogni slide, e la riga card+testo si centra da sola
+       nello spazio rimanente (flex:1 su .offerta-riga). Cosi' lo
+       spazio sopra non dipende piu' da quanto testo ha l'offerta. */
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+    padding: 44px 60px 56px; /* in basso lo spazio serve anche alle barrette-indicatore */
+    color: #ffffff;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* Alone di luce morbido dietro la zona del prodotto: da' profondita'
+   al fondo scuro senza aggiungere elementi. Puramente decorativo. */
+#offerte .offerta-single::before,
+#offerte .offerta-slide::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 28%;
+    width: 620px;
+    height: 620px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0) 62%);
+    pointer-events: none;
+}
+
+/* Temi colore: gradienti profondi al posto delle tinte piatte.
+   Si assegnano ciclicamente (0=blu, 1=rosso, 2=grigio, 3=blu, ...) */
+#offerte .offerta-tema-blu {
+    background: linear-gradient(135deg, #0d1730 0%, #111e3c 45%, #1a2c56 100%);
+}
+
+#offerte .offerta-tema-rosso {
+    background: linear-gradient(135deg, #47090c 0%, #6e1015 45%, #9a161c 100%);
+}
+
+#offerte .offerta-tema-grigio {
+    background: linear-gradient(135deg, #1c222e 0%, #2b3342 45%, #787f89 100%);
+}
+
+/* Eyebrow "Offerte": piccola etichetta maiuscola spaziata con due
+   lineette laterali, al posto del vecchio titolone da 3.2rem */
+#offerte .offerte-eyebrow {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 0 0 14px; /* stacco minimo garantito; il resto dello spazio lo crea il centraggio della riga sotto */
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+#offerte .offerte-eyebrow::before,
+#offerte .offerte-eyebrow::after {
+    content: '';
+    width: 34px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.4);
+}
+
+/* Riga con card prodotto + testo: occupa tutto lo spazio sotto la
+   scritta "Offerte" (flex:1) e centra la card in verticale. In
+   ORIZZONTALE non centriamo "la coppia" (con testi corti pendeva a
+   sinistra, con larghezza fissa avanzava vuoto a destra): la card
+   viene ancorata all'ASSE CENTRALE della sezione con un margine
+   calcolato (vedi .offerta-media), cosi' il suo bordo destro tocca
+   sempre il centro pagina e il testo parte subito dopo. Posizione
+   identica su ogni slide e composizione bilanciata a occhio. */
+#offerte .offerta-riga {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 60px;
+    width: 100%;
+    max-width: 980px;
+    margin: 0 auto;
+    min-height: 0;
+}
+
+/* Card prodotto BIANCA con ombra morbida: la foto (object-fit:contain,
+   niente piu' ritagli) respira su un piccolo padding interno */
+#offerte .offerta-media {
+    position: relative;
+    flex: 0 0 280px;
+    width: 280px;
+    height: 280px;
+    /* 50% - larghezza card (280) - meta' gap (30): il bordo destro
+       della card cade esattamente sull'asse centrale della riga */
+    margin-left: calc(50% - 310px);
+    padding: 18px;
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35);
+    box-sizing: border-box;
+}
+
+#offerte .offerta-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    border-radius: 8px;
+}
+
+/* Badge sconto: bollino circolare DORATO che "morde" l'angolo della
+   card bianca. Percentuale calcolata in JS da prezzo_originale e
+   prezzo_scontato. */
+#offerte .sconto-badge {
+    position: absolute;
+    top: -14px;
+    right: -14px;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(140deg, #f6e27a 0%, #d9ab35 55%, #b3831a 100%);
+    border-radius: 50%;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
+    z-index: 2;
+}
+
+#offerte .sconto-badge-text {
+    color: #ffffff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35); /* leggera ombra: tiene leggibile il bianco sull'oro chiaro */
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: -0.5px;
+    line-height: 1;
+    text-align: center;
+}
+
+/* Blocco testo: occupa solo lo spazio che serve (max 440px), sempre
+   allineato a sinistra. La stabilita' tra le slide non dipende piu'
+   da lui: e' la card ancorata al centro a fissare la geometria. */
+#offerte .offerta-content {
+    flex: 0 1 auto;
+    min-width: 0;
+    max-width: 440px;
+    text-align: left;
+}
+
+#offerte .offerta-content h2 {
+    font-size: 2.4rem;
+    font-weight: 300;
+    color: #ffffff;
+    letter-spacing: -1px;
+    line-height: 1.15;
+    margin: 0 0 12px;
+}
+
+#offerte .offerta-content p.offerta-descrizione {
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0 0 22px;
+    max-width: 440px;
+}
+
+#offerte .prezzi {
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-start;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+#offerte .old-price {
+    font-size: 1.05rem;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.55);
+    text-decoration: line-through;
+    text-decoration-color: rgba(255, 255, 255, 0.45);
+}
+
+#offerte .new-price {
+    font-size: 2.6rem;
+    font-weight: 600;
+    letter-spacing: -1px;
+    line-height: 1;
+    color: #ffffff;
+}
+
+/* "Passa in negozio": semplice scritta, niente link ne' effetti */
+#offerte .offerta-cta-testo {
+    font-size: 0.78rem;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.65);
+    margin: 0;
+}
+
+/* Indicatori del carosello: barrette sottili invece dei rettangoli
+   di default di Bootstrap */
+#offerte .carousel-indicators {
+    margin-bottom: 20px;
+    gap: 6px;
+}
+
+#offerte .carousel-indicators [data-bs-target] {
+    width: 26px;
+    height: 3px;
+    border-radius: 2px;
+    border: none;
+    margin: 0;
+    background-color: rgba(255, 255, 255, 0.35);
+    opacity: 1;
+    transition: background-color 0.3s ease;
+}
+
+#offerte .carousel-indicators .active {
+    background-color: #ffffff;
+}
+
+/* Chi ha "riduci movimento" attivo non vede la dissolvenza animata */
+@media (prefers-reduced-motion: reduce) {
+    #offerte .carousel-item {
+        transition: none;
+    }
+}
+
+@media (max-width: 991.98px) {
+    #offerte {
+        height: 60vh;
+        min-height: 500px;
+    }
+
+    #offerte .offerta-single,
+    #offerte .offerta-slide {
+        padding: 38px 40px 52px;
+    }
+
+    #offerte .offerta-riga {
+        gap: 40px;
+    }
+
+    /* Card e testi ingranditi: su iPad erano troppo piccoli */
+    #offerte .offerta-media {
+        flex: 0 0 270px;
+        width: 270px;
+        height: 270px;
+        margin-left: calc(50% - 290px); /* 50% - card 270 - meta' gap 20 */
+    }
+
+    #offerte .offerta-content {
+        max-width: 400px;
+    }
+
+    #offerte .offerta-content h2 {
+        font-size: 2.2rem;
+    }
+
+    #offerte .offerta-content p.offerta-descrizione {
+        font-size: 1rem;
+    }
+
+    #offerte .new-price {
+        font-size: 2.4rem;
+    }
+}
+
+@media (max-width: 767.98px) {
+    #offerte {
+        height: 64vh;
+        min-height: 540px;
+        max-height: 680px;
+    }
+
+    #offerte .offerta-single,
+    #offerte .offerta-slide {
+        padding: 34px 20px 46px;
+    }
+
+    /* L'alone di luce si centra dietro la colonna unica */
+    #offerte .offerta-single::before,
+    #offerte .offerta-slide::before {
+        left: 50%;
+        top: 38%;
+        width: 460px;
+        height: 460px;
+    }
+
+    #offerte .offerte-eyebrow {
+        margin-bottom: 12px; /* il resto dello spazio lo crea il centraggio */
+        font-size: 0.72rem;
+        letter-spacing: 4px;
+    }
+
+    #offerte .offerta-riga {
+        flex-direction: column;
+        justify-content: center; /* card e testo centrati nello spazio sotto "Offerte", non incollati in alto */
+        gap: 20px;
+    }
+
+    /* Foto protagonista anche su smartphone: card piu' grande di prima.
+       In colonna l'ancoraggio all'asse non serve: margine azzerato,
+       ci pensa align-items:center a centrarla */
+    #offerte .offerta-media {
+        flex: 0 0 auto;
+        width: 215px;
+        height: 215px;
+        margin-left: 0;
+        padding: 14px;
+        border-radius: 18px;
+    }
+
+    #offerte .sconto-badge {
+        top: -10px;
+        right: -10px;
+        width: 52px;
+        height: 52px;
+    }
+
+    #offerte .sconto-badge-text {
+        font-size: 0.85rem;
+    }
+
+    #offerte .offerta-content {
+        max-width: 100%;
+        text-align: center;
+    }
+
+    #offerte .offerta-content h2 {
+        font-size: 1.5rem;
+        margin-bottom: 8px;
+    }
+
+    #offerte .offerta-content p.offerta-descrizione {
+        font-size: 0.9rem;
+        max-width: 100%;
+        margin-bottom: 12px;
+    }
+
+    #offerte .prezzi {
+        justify-content: center;
+        margin-bottom: 12px;
+    }
+
+    #offerte .new-price {
+        font-size: 1.9rem;
+    }
+
+    #offerte .old-price {
+        font-size: 0.9rem;
+    }
+
+    #offerte .offerta-cta-testo {
+        font-size: 0.7rem;
+        letter-spacing: 1.5px;
+    }
+
+    #offerte .carousel-indicators {
+        margin-bottom: 14px;
+    }
+}
+
+/* =========================================================
+   HERO / CTA-STORIA ("DA 65 ANNI...")
+   ========================================================= */
+#cta-storia {
+    padding: calc(var(--section-padding) + 30px) 20px var(--section-padding);
+    text-align: center;
+}
+
+#cta-storia .cta-storia-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+#cta-storia h1 {
+    color: rgb(186, 23, 29);
+    font-size: 4rem;
+    font-weight: 300;
+    letter-spacing: -2px;
+    line-height: 1.05;
+    margin-bottom: 0;
+}
+
+.divider-line {
+    width: 30px;
+    height: 1px;
+    margin: 16px auto 18px;
+    opacity: 0.3;
+}
+
+#cta-storia .storia-testo {
+    font-size: 1.05rem;
+    font-weight: 300;
+    line-height: 1.9;
+    color: #555;
+    max-width: 680px;
+    margin: 0 auto;
+}
+
+#cta-storia .scroll-invito {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    opacity: 0.5;
+    transition: opacity 0.4s ease;
+    animation: scrollPulse 2.2s ease-in-out infinite;
+}
+
+#cta-storia .scroll-linea {
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #555;
+}
+
+#cta-storia .scroll-freccia {
+    font-size: 1.2rem;
+    color: #777;
+}
+
+@keyframes scrollPulse {
+    0%, 100% {
+        transform: translateY(0);
+        opacity: 0.5;
+    }
+    50% {
+        transform: translateY(6px);
+        opacity: 0.6;
+    }
+}
+
+/* =========================================================
+   TITOLI SECONDARI (usato da #marchi e #servizi)
+   ========================================================= */
+.section-title-secondary {
+    font-size: 2.2rem;
+    font-weight: 300;
+    color: #111e3c;
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+/* =========================================================
+   CAROUSEL PRODOTTI
+   ========================================================= */
+.prodotti-asko-carousel {
+    padding: 20px 0 65px; /* respiro bianco sotto i pallini, prima che inizi la fascia grigia dei marchi */
+}
+
+.asko-carousel-header {
+    margin-bottom: var(--title-gap);
+}
+
+.asko-carousel-header h2 {
+    font-size: 2.2rem;
+    font-weight: 300;
+    color: #111e3c;
+    margin-left: 0;
+    letter-spacing: -0.5px;
+}
+
+.asko-carousel-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.asko-carousel-track {
+    display: flex;
+    gap: 24px;
+    padding: 4px 0;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.asko-carousel-track::-webkit-scrollbar {
+    display: none;
+}
+
+.asko-carousel-card {
+    flex: 0 0 calc(27% - 16px);
+    min-width: 180px;
+    aspect-ratio: 3 / 4;
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    position: relative;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    background: #e9ecef;
+    scroll-snap-align: start;
+}
+
+.asko-carousel-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 20px 40px rgba(17, 30, 60, 0.15);
+    text-decoration: none;
+}
+
+.asko-carousel-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.asko-carousel-card:hover .asko-carousel-card-img {
+    transform: scale(1.05);
+}
+
+.asko-carousel-card-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 28px 28px 32px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0) 100%);
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    pointer-events: none;
+}
+
+.asko-carousel-card-overlay h3 {
+    font-size: 1.6rem;
+    font-weight: 500;
+    margin: 0 0 4px 0;
+    color: #ffffff;
+    letter-spacing: -0.3px;
+}
+
+.asko-carousel-card-overlay p {
+    font-size: 0.9rem;
+    font-weight: 300;
+    margin: 0 0 6px 0;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.asko-carousel-card-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 1.1rem;
+    margin-top: 6px;
+    transition: transform 0.3s ease;
+    opacity: 0.7;
+}
+
+.asko-carousel-card:hover .asko-carousel-card-arrow {
+    transform: translateX(6px);
+    opacity: 1;
+}
+
+.asko-carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.9);
+    color: #111e3c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+    z-index: 10;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.asko-carousel-btn:hover {
+    background: #ffffff;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.asko-carousel-prev {
+    left: 16px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.asko-carousel-prev.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.asko-carousel-next {
+    right: 16px;
+    opacity: 1;
+    visibility: visible;
+}
+
+.asko-carousel-next.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.asko-carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.asko-carousel-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #dee2e6;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.3s ease;
+}
+
+.asko-carousel-dot.active {
+    background: #ba171d;
+    width: 28px;
+    border-radius: 6px;
+}
+
+.asko-carousel-dot:hover {
+    background: #ba171d;
+}
+
+/* =========================================================
+   CAROUSEL MARCHI
+   Fascia grigia a tutta larghezza, ma piu' bassa di prima (padding
+   verticale ridotto) cosi' non occupa troppo spazio in pagina.
+   ========================================================= */
+#marchi {
+    padding: 45px 0 50px;
+    background: #f2f2f2;
+}
+
+#marchi .section-header {
+    text-align: center;
+    margin-bottom: var(--title-gap);
+}
+
+.marchi-carousel-wrapper {
+    position: relative;
+    overflow: hidden;
+    padding: 15px 0;
+}
+
+.marchi-carousel-track {
+    display: flex;
+    gap: 25px;
+    /* Distanza e durata vengono impostate via JS (script.js) in base al
+       numero reale di marchi, cosi' aggiungere/togliere un marchio in
+       futuro non "rompe" mai il loop. I valori qui sotto sono solo un
+       fallback nel caso JS non sia ancora partito o sia disabilitato. */
+    animation: scrollMarchi var(--marchi-scroll-duration, 25s) linear infinite;
+    width: max-content;
+}
+
+.marchi-carousel-wrapper:hover .marchi-carousel-track {
+    animation-play-state: paused;
+}
+
+@keyframes scrollMarchi {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(var(--marchi-scroll-distance, -50%));
+    }
+}
+
+.marchio-mini-card {
+    flex: 0 0 180px;
+    background: white;
+    border-radius: 11px;
+    padding: 28px 20px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+    border: 1px solid #eee;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 160px;
+}
+
+.marchio-mini-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    border-color: rgb(186, 23, 29);
+}
+
+.marchio-mini-card img {
+    max-width: 130px;
+    max-height: 95px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    filter: grayscale(40%);
+    transition: filter 0.3s ease;
+}
+
+.marchio-mini-card:hover img {
+    filter: grayscale(0%);
+}
+
+/* =========================================================
+   SERVIZI
+   ========================================================= */
+#servizi {
+    padding: var(--section-padding) 0;
+}
+
+#servizi .section-header {
+    margin-bottom: var(--title-gap);
+}
+
+#servizi .row {
+    margin-top: 0;
+}
+
+.servizio-card {
+    padding: 20px 15px;
+    transition: transform 0.3s ease;
+}
+
+.servizio-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 20px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(186, 23, 29);
+    transition: transform 0.3s ease;
+}
+
+.servizio-icon img {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+    display: block;
+}
+
+.servizio-titolo {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: rgb(17, 30, 60);
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+}
+
+.servizio-descrizione {
+    font-size: 0.95rem;
+    color: #6c757d;
+    line-height: 1.6;
+    margin-bottom: 0;
+    max-width: 280px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+footer {
+    background: rgb(17, 30, 60);
+    color: #e0e0e0;
+    font-size: 14px;
+    padding: 50px;
+    width: 100%;
+}
+
+.footer-content {
+    text-align: center;
+}
+
+footer p {
+    margin: 6px 0;
+}
+
+footer strong {
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 15px;
+    display: inline-block;
+    margin-bottom: 4px;
+}
+
+footer hr {
+    border: 0;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+footer a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+.footer-legal {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: nowrap;
+    margin-top: 10px;
+}
+
+.separator-light {
+    opacity: 0.2;
+}
+
+/* =========================================================
+   PAGINE INTERNE (privacy.html, cookie.html, ecc.)
+   Non usate in index.html, ma condivise dal foglio di stile
+   ========================================================= */
+main.container.py-5 {
+    background: #ffffff;
+    padding: 60px 70px;
+}
+
+main h1 {
+    text-align: center;
+    position: relative;
+    padding-bottom: 25px;
+}
+
+main h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: rgb(186, 23, 29);
+}
+
+main h3 {
+    color: rgb(17, 30, 60);
+    font-size: 1.35rem;
+    font-weight: 600;
+    margin-top: 40px;
+    margin-bottom: 18px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+main p {
+    color: #444;
+    font-size: 1rem;
+    line-height: 1.8;
+    margin-bottom: 18px;
+}
+
+main ul {
+    padding-left: 0;
+    margin: 20px 0 30px 0;
+    list-style: none;
+}
+
+main ul li {
+    color: #444;
+    font-size: 1rem;
+    line-height: 1.7;
+    padding: 6px 0 6px 28px;
+    position: relative;
+}
+
+main ul li::before {
+    content: '▸';
+    color: rgb(186, 23, 29);
+    font-size: 1.1rem;
+    position: absolute;
+    left: 4px;
+    top: 6px;
+}
+
+main strong {
+    color: rgb(17, 30, 60);
+    font-weight: 600;
+}
+
+#cookie {
+    margin-top: 40px;
+}
+
+/* =========================================================
+   PAGINE PRODOTTO (climatizzatori.html, lavatrici.html, ecc.)
+   Intro di categoria + tipologie alternate a zig-zag.
+   L'alternanza sinistra/destra è automatica (nth-child), quindi per
+   aggiungere una tipologia in più basta copiare un blocco .tipologia-row:
+   non serve ricordarsi se tocca a sinistra o a destra.
+   ========================================================= */
+.categoria-intro {
+    max-width: 700px;
+    margin: 0 auto 70px;
+    text-align: center;
+}
+
+.categoria-intro .eyebrow {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgb(186, 23, 29);
+    margin-bottom: 12px;
+}
+
+.categoria-intro h1 {
+    font-size: 2.6rem;
+    font-weight: 300;
+    color: #111e3c;
+    letter-spacing: -1px;
+    margin-bottom: 18px;
+    padding-bottom: 0; /* sovrascrive la linea rossa sotto h1 pensata per le pagine legali */
+}
+
+.categoria-intro h1::after {
+    content: none; /* niente linea rossa qui: la intro ha già l'eyebrow colorato sopra */
+}
+
+.categoria-intro p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #555;
+    margin-bottom: 0;
+}
+
+.tipologia-row {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    margin-bottom: 90px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.tipologia-row.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.tipologia-row:last-child {
+    margin-bottom: 0;
+}
+
+/* Alternanza automatica: le righe pari si invertono da sole */
+.tipologia-row:nth-child(even) {
+    flex-direction: row-reverse;
+}
+
+.tipologia-media {
+    flex: 0 0 50%;
+    border-radius: 16px;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    background: #e9ecef; /* placeholder finché non ci sono le immagini vere */
+}
+
+.tipologia-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.tipologia-content {
+    flex: 1;
+}
+
+.tipologia-content .tipologia-eyebrow {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgb(186, 23, 29);
+    margin-bottom: 10px;
+}
+
+.tipologia-content h2 {
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: #111e3c;
+    letter-spacing: -0.5px;
+    margin-bottom: 16px;
+}
+
+.tipologia-content p {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #555;
+    margin-bottom: 0;
+}
+
+/* Chi ha il "prefers-reduced-motion" attivo non vede l'animazione:
+   il contenuto è già visibile da subito, per accessibilità. */
+@media (prefers-reduced-motion: reduce) {
+    .tipologia-row {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+
+    .marchi-carousel-track {
+        animation: none;
+    }
+
+    #cta-storia .scroll-invito {
+        animation: none;
+    }
+}
+
+
+   /*Tutto il resto del file sopra resta invariato: da qui in
+   giù valgono solo aggiustamenti per schermi piccoli.
+   ========================================================= */
+
+/* ----- Navbar "tablet": nav completa come su PC ma dimensionata per non sforare
+   la larghezza dello schermo (768–1199px: copre iPad in verticale e in orizzontale,
+   incluso iPad Pro 1024px, che sopra i 991px prendeva ancora i margini da vero
+   desktop e andava di nuovo in overflow) -----
+   Logo e link vengono centrati come blocco (non più "impacchettati" a sinistra):
+   se stanno su una riga sola restano centrati insieme, altrimenti (schermi più
+   stretti) vanno a capo restando comunque centrati riga per riga. */
+@media (min-width: 768px) and (max-width: 1199.98px) {
+    .navbar {
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        padding: 12px 0;
+    }
+
+    #logo {
+        height: 75px;
+        margin-left: 0;
+        margin-top: 6px;
+        margin-bottom: 6px;
+    }
+
+    .navbar-nav {
+        margin-left: 20px;
+        margin-top: 0;
+    }
+
+    /* Bootstrap dà a .navbar-collapse un flex-grow:1 di default, che occupa
+       tutto lo spazio rimanente impedendo il centraggio del gruppo logo+link.
+       Lo neutralizziamo per lasciare che justify-content:center funzioni. */
+    .navbar-collapse {
+        flex-grow: 0;
+    }
+}
+
+/* ----- Navbar: hamburger a sinistra, logo centrato, resta agganciata in alto anche su mobile
+   (< 768px, soglia allineata a navbar-expand-md e alle altre sezioni responsive) ----- */
+@media (max-width: 767.98px) {
+    .navbar {
+        position: sticky;
+        top: 0;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        padding: 12px 0;
+        z-index: 1030;
+    }
+
+    .navbar-toggler {
+        position: absolute;
+        left: 20px;
+        top: 67px; /* ancorato al centro della barra chiusa: non si sposta quando il menu si apre */
+        transform: translateY(-50%);
+    }
+
+    #logo {
+        display: block;
+        height: 110px;
+        margin: 0 auto;
+    }
+
+    .navbar-nav {
+        margin: 0;
+        text-align: center;
+    }
+
+    .navbar-collapse {
+        flex-basis: 100%;
+        justify-content: center;
+    }
+
+    /* Su mobile si torna in home cliccando il logo: la voce "Home" non serve */
+    .nav-home-item {
+        display: none;
+    }
+}
+
+/* ----- Carosello prodotti: card più larghe su tablet/mobile, pulsanti nascosti sotto i 768px
+   (i puntini restano sempre visibili e si aggiornano da soli mentre si scorre col dito) ----- */
+@media (max-width: 991.98px) {
+    .asko-carousel-card {
+        flex: 0 0 calc(50% - 16px);
+    }
+}
+
+@media (max-width: 767.98px) {
+    .asko-carousel-card {
+        flex: 0 0 78%;
+    }
+
+    .asko-carousel-btn {
+        display: none;
+    }
+}
+
+/* ----- Mobile: footer impilato (< 768px) ----- */
+@media (max-width: 767.98px) {
+
+    /* Footer: P.IVA e link legali su righe separate, senza separatore */
+    .footer-iva-row,
+    .footer-legal {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .footer-iva-row .separator-light,
+    .footer-legal .separator-light {
+        display: none;
+    }
+
+    /* Pagine prodotto: sempre impilate su mobile, mai alternate */
+    .tipologia-row,
+    .tipologia-row:nth-child(even) {
+        flex-direction: column;
+        gap: 24px;
+        margin-bottom: 50px;
+    }
+
+    /* Il container principale (pagine interne + prodotti) ha 70px di
+       padding laterale pensato per desktop: su mobile lo riduciamo,
+       altrimenti il testo resta compresso in poco spazio. */
+    main.container.py-5 {
+        padding: 40px 20px;
+    }
+
+    .tipologia-media {
+        flex: 0 0 auto;
+        /* Full-bleed: l'immagine esce dal container centrale ed è larga
+           quanto tutto lo schermo, non più dentro una "card" con margini.
+           Usiamo margini negativi (anziché 100vw) per evitare il rischio
+           di scrollbar orizzontale che il trucco 100vw può introdurre. */
+        width: calc(100% + 40px);
+        margin-left: -20px;
+        margin-right: -20px;
+        border-radius: 0;
+    }
+
+    .tipologia-content {
+        text-align: center;
+    }
+
+    .categoria-intro {
+        margin-bottom: 45px;
+    }
+
+    .categoria-intro h1 {
+        font-size: 2rem;
+    }
+}

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refrigerazione</title>
+    <link rel="icon" type="image/png" href="favicon1.png">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <!-- CSS del sito (va DOPO Bootstrap per poterlo sovrascrivere) -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ===================== NAVBAR ===================== -->
+    <nav class="navbar navbar-expand-md sticky-top">
+        <a href="index.html" class="navbar-logo-link" aria-label="Vai alla home">
+            <img src="logo.png" id="logo" alt="Ambroso Elettrodomestici">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item mx-3 nav-home-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item mx-3">
+                    <a class="nav-link" href="index.html#cta-storia">Chi siamo</a>
+                </li>
+                <li class="nav-item mx-3">
+                    <a class="nav-link" href="index.html#prodotti">Prodotti</a>
+                </li>
+                <li class="nav-item mx-3">
+                    <a class="nav-link" href="index.html#servizi">Servizi</a>
+                </li>
+                <li class="nav-item mx-3">
+                    <a class="nav-link" href="#footer">Contatti</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+        
+    <!-- ===================== CONTENUTO ===================== -->
+    <main class="container py-5">
+ 
+        <!-- Intro breve della categoria -->
+        <div class="categoria-intro">
+            <span class="eyebrow">Refrigerazione</span>
+            <h1>La giusta conservazione, per ogni cucina</h1>
+            <p>
+                Che sia il primo elettrodomestico aperto al mattino o l'ultimo controllato la sera,
+                il frigorifero è il cuore silenzioso della cucina. Frigoriferi, congelatori e
+                combinati per ogni spazio e necessità: qui trovi le tipologie più richieste!
+            </p>
+        </div>
+ 
+        <!-- Tipologia 1: immagine a sinistra, testo a destra (automatico) -->
+        <div class="tipologia-row">
+            <div class="tipologia-media">
+                <img src="frigox.JPG" alt="Frigorifero">
+            </div>
+            <div class="tipologia-content">
+                <span class="tipologia-eyebrow">Conservazione</span>
+                <h2>Frigoriferi</h2>
+                <p>
+                    Solo comparto frigo, senza vano congelatore: la scelta giusta quando serve
+                    conservare gli alimenti freschi giorno per giorno, senza bisogno di fare scorte
+                    surgelate. Da incasso o a libera installazione, in diverse dimensioni per
+                    adattarsi allo spazio disponibile in cucina.
+                </p>
+            </div>
+        </div>
+ 
+        <!-- Tipologia 2: si inverte da sola (immagine a destra, testo a sinistra) -->
+        <div class="tipologia-row">
+            <div class="tipologia-media">
+                <img src="congelatore.JPG" alt="Congelatore">
+            </div>
+            <div class="tipologia-content">
+                <span class="tipologia-eyebrow">Surgelazione</span>
+                <h2>Congelatori</h2>
+                <p>
+                    Solo vano congelatore, senza comparto frigo: un elettrodomestico a sé, pensato
+                    per chi ha bisogno di spazio extra per conservare surgelati e fare scorta,
+                    magari in affiancamento a un frigorifero già presente in cucina. Disponibili in
+                    versione verticale o a pozzetto, a seconda dello spazio che hai a disposizione.
+                </p>
+            </div>
+        </div>
+ 
+        <!-- Tipologia 3: torna a sinistra da sola -->
+        <div class="tipologia-row">
+            <div class="tipologia-media">
+                <img src="frigoecong.JPG" alt="Frigorifero combinato">
+            </div>
+            <div class="tipologia-content">
+                <span class="tipologia-eyebrow">Frigo-congelatore</span>
+                <h2>Combinati</h2>
+                <p>
+                    Frigo e congelatore in un solo elettrodomestico, con due zone separate al posto
+                    di due apparecchi distinti: la soluzione più diffusa nelle cucine di oggi,
+                    perfetta se vuoi avere entrambe le funzioni senza occupare spazio doppio.
+                    Diverse configurazioni interne permettono di organizzare al meglio gli spazi
+                    tra le due zone.
+                </p>
+            </div>
+        </div>
+ 
+        <!-- Per aggiungere un'altra tipologia: copia uno dei blocchi
+             .tipologia-row sopra e cambia immagine/testi. L'alternanza
+             sinistra/destra si sistema da sola, non serve toccarla. -->
+ 
+    </main>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer id="footer">
+        <div class="footer-content">
+            <p>© 2026 Copyright. Tutti i diritti riservati.</p>
+            <p class="footer-iva-row">
+                <span>Ambroso S.a.s. di Ambroso Gianluca &amp; C.</span>
+                <span class="separator-light">|</span>
+                <span>P.IVA 02872100249</span>
+            </p>
+            <hr>
+            <p><strong>Contatti</strong></p>
+            <p>Telefono: 0424 861080</p>
+            <p>Email: info@ambrosoelettronica.com</p>
+            <p>Sede: via Amabiglia 2, 36027 Rosà (VI)</p>
+            <hr>
+            <p><strong>Social</strong></p>
+            <p>Instagram: ambroso_elettronica</p>
+            <hr>
+            <p><strong>Documenti e Informativa</strong></p>
+
+            <div class="footer-legal">
+                <a href="privacy.html">Informativa sulla Privacy</a>
+                <span class="separator-light">|</span>
+                <a href="cookie.html">Informativa sui Cookie</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===================== SCRIPT ===================== -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

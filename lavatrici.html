@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lavaggio</title>
+    <link rel="icon" type="image/png" href="favicon1.png">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <!-- CSS del sito (va DOPO Bootstrap per poterlo sovrascrivere) -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ===================== NAVBAR ===================== -->
+    <nav class="navbar navbar-expand-md sticky-top">
+        <a href="index.html" class="navbar-logo-link" aria-label="Vai alla home">
+            <img src="logo.png" id="logo" alt="Ambroso Elettrodomestici">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item mx-3 nav-home-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item mx-3">
+                    <a class="nav-link" href="index.html#cta-storia">Chi siamo</a>
+                </li>
+                <li class="nav-item mx-3">
+                    <a class="nav-link" href="index.html#prodotti">Prodotti</a>
+                </li>
+                <li class="nav-item mx-3">
+                    <a class="nav-link" href="index.html#servizi">Servizi</a>
+                </li>
+                <li class="nav-item mx-3">
+                    <a class="nav-link" href="#footer">Contatti</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+        
+    <!-- ===================== CONTENUTO ===================== -->
+    <main class="container py-5">
+ 
+        <!-- Intro breve della categoria -->
+        <div class="categoria-intro">
+            <span class="eyebrow">Lavaggio</span>
+            <h1>Bucato e stoviglie, senza pensieri</h1>
+            <p>
+                Capienza, silenziosità e consumi: sono questi i fattori che contano davvero quando si
+                sceglie una lavatrice, un'asciugatrice o una lavastoviglie. Ti aiutiamo a orientarti tra
+                le marche e i modelli disponibili, con la possibilità di ordinare anche referenze non
+                esposte in negozio.
+            </p>
+        </div>
+ 
+        <!-- Tipologia 1: immagine a sinistra, testo a destra (automatico) -->
+        <div class="tipologia-row">
+            <div class="tipologia-media">
+                <img src="lavatrix.JPG" alt="Lavatrice">
+            </div>
+            <div class="tipologia-content">
+                <span class="tipologia-eyebrow">Bucato</span>
+                <h2>Lavatrici</h2>
+                <p>
+                    Modelli adatti a ogni esigenza di spazio e di famiglia, con soluzioni a carico
+                    frontale o dall'alto. Programmi pensati per diversi tipi di tessuti e classi
+                    energetiche che aiutano a contenere i consumi di acqua ed elettricità.
+                </p>
+            </div>
+        </div>
+ 
+        <!-- Tipologia 2: si inverte da sola (immagine a destra, testo a sinistra) -->
+        <div class="tipologia-row">
+            <div class="tipologia-media">
+                <img src="asciugatrice.JPG" alt="Asciugatrice">
+            </div>
+            <div class="tipologia-content">
+                <span class="tipologia-eyebrow">Asciugatura</span>
+                <h2>Asciugatrici</h2>
+                <p>
+                    Un aiuto prezioso quando manca lo spazio per stendere o non c'è tempo da
+                    aspettare. Disponibili in diverse tecnologie e fasce di consumo, con programmi
+                    dedicati ai vari tipi di capi.
+                </p>
+            </div>
+        </div>
+ 
+        <!-- Tipologia 3: torna a sinistra da sola -->
+        <div class="tipologia-row">
+            <div class="tipologia-media">
+                <img src="lavastoviglie.JPG" alt="Lavastoviglie">
+            </div>
+            <div class="tipologia-content">
+                <span class="tipologia-eyebrow">Stoviglie</span>
+                <h2>Lavastoviglie</h2>
+                <p>
+                    Soluzioni a incasso o a libera installazione, da scegliere in base a come è
+                    fatta la tua cucina. Cestelli pensati per adattarsi a pentole e stoviglie di
+                    misure diverse, con programmi che permettono di risparmiare acqua ed energia.
+                </p>
+            </div>
+        </div>
+ 
+        <!-- Per aggiungere un'altra tipologia: copia uno dei blocchi
+             .tipologia-row sopra e cambia immagine/testi. L'alternanza
+             sinistra/destra si sistema da sola, non serve toccarla. -->
+ 
+    </main>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer id="footer">
+        <div class="footer-content">
+            <p>© 2026 Copyright. Tutti i diritti riservati.</p>
+            <p class="footer-iva-row">
+                <span>Ambroso S.a.s. di Ambroso Gianluca &amp; C.</span>
+                <span class="separator-light">|</span>
+                <span>P.IVA 02872100249</span>
+            </p>
+            <hr>
+            <p><strong>Contatti</strong></p>
+            <p>Telefono: 0424 861080</p>
+            <p>Email: info@ambrosoelettronica.com</p>
+            <p>Sede: via Amabiglia 2, 36027 Rosà (VI)</p>
+            <hr>
+            <p><strong>Social</strong></p>
+            <p>Instagram: ambroso_elettronica</p>
+            <hr>
+            <p><strong>Documenti e Informativa</strong></p>
+
+            <div class="footer-legal">
+                <a href="privacy.html">Informativa sulla Privacy</a>
+                <span class="separator-light">|</span>
+                <a href="cookie.html">Informativa sui Cookie</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===================== SCRIPT ===================== -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
